@@ -85,7 +85,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "rustc_version",
- "syn 1.0.74",
+ "syn",
 ]
 
 [[package]]
@@ -96,8 +96,7 @@ dependencies = [
  "dtd-parser",
  "proc-macro2",
  "quote",
- "serde",
- "syn 1.0.74",
+ "syn",
  "version_check",
 ]
 
@@ -231,7 +230,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8416fc5553b00d217b0381929fbce7368935d609afdee46c844e09f962b379e6"
 dependencies = [
  "quote",
- "syn 1.0.74",
+ "syn",
 ]
 
 [[package]]
@@ -351,26 +350,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "serde"
-version = "1.0.188"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf9e0fcba69a370eed61bcf2b728575f726b50b55cba78064753d708ddc7549e"
-dependencies = [
- "serde_derive",
-]
-
-[[package]]
-name = "serde_derive"
-version = "1.0.188"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4eca7ac642d82aa35b60049a6eccb4be6be75e599bd2e9adb5f875a737654af2"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.38",
-]
-
-[[package]]
 name = "static_assertions"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -385,17 +364,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-xid",
-]
-
-[[package]]
-name = "syn"
-version = "2.0.38"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e96b79aaa137db8f61e26363a0c9b47d8b4ec75da28b7d1d614c2303e232408b"
-dependencies = [
- "proc-macro2",
- "quote",
- "unicode-ident",
 ]
 
 [[package]]

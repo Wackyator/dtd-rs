@@ -8,7 +8,7 @@
 ## Install
 
 ```shell
-cargo add dtd-rs --allow-prerelease
+cargo add dtd-rs
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ dtd! {
     <!ELEMENT from (#PCDATA)>
     <!ELEMENT heading (#PCDATA)>
     <!ELEMENT body (#PCDATA)>"
-}
+};
 
 // Generated:
 //    pub struct Body(pub String);
@@ -44,12 +44,16 @@ dtd! {
 //    }
 //    pub type Note = TupleToFromHeadingBody;
 
-let note = Note {
-    to: To(String::From("to somewhere")),
-    from: From(String::From("from somewhere")),
-    heading: Heading(String::From("this is heading")),
-    body: Body(String::From("Some Body"))
-}
+
+let xml = r#"
+<note>
+  <to>You</to>
+  <from>Me</from>
+  <heading>Hello Friend</heading>
+  <body>Hello You</body>
+</note>
+"#;
+let note: Note = serde_xml_rs::from_str(xml);
 
 println!("{:?}", note);
 
