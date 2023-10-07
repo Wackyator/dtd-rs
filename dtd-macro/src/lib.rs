@@ -213,7 +213,7 @@ pub fn dtd(input: TokenStream) -> TokenStream {
                 match element.category() {
                     parser::ElementCategory::Empty => {
                         let token = quote! {
-                            #[derive(Clone, Debug)]
+                            #[derive(Clone, Debug, serde::Deserialize)]
                             pub struct #struct_name;
                         };
                         // println!(" > EMPTY: {} {}", struct_name, token.to_string());
@@ -225,7 +225,7 @@ pub fn dtd(input: TokenStream) -> TokenStream {
                     parser::ElementCategory::PCDATA => {
                         // String
                         let token = quote! {
-                            #[derive(Clone, Debug)]
+                            #[derive(Clone, Debug, serde::Deserialize)]
                             pub struct #struct_name(pub String);
                         };
                         // println!(" > PCDATA: {}", struct_name);
@@ -237,7 +237,7 @@ pub fn dtd(input: TokenStream) -> TokenStream {
                     parser::ElementCategory::CDATA => {
                         // String
                         let token = quote! {
-                            #[derive(Clone, Debug)]
+                            #[derive(Clone, Debug, serde::Deserialize)]
                             pub struct #struct_name(pub String);
                         };
                         // println!(" > CDATA: {}", struct_name);
@@ -249,7 +249,7 @@ pub fn dtd(input: TokenStream) -> TokenStream {
                     parser::ElementCategory::Any => {
                         // Any?
                         let token = quote! {
-                            #[derive(Clone, Debug)]
+                            #[derive(Clone, Debug, serde::Deserialize)]
                             pub struct #struct_name(pub Box<dyn ::std::any::Any>);
                         };
                         // println!(" > Any: {}", struct_name);
@@ -263,7 +263,7 @@ pub fn dtd(input: TokenStream) -> TokenStream {
                             parser::Repeatable::Once(_) => {
                                 // No child, it is String.
                                 let token = quote! {
-                                    #[derive(Clone, Debug)]
+                                    #[derive(Clone, Debug, serde::Deserialize)]
                                     pub struct #struct_name(pub String);
                                 };
                                 // println!(" > Mixed: {}", struct_name);
@@ -286,7 +286,7 @@ pub fn dtd(input: TokenStream) -> TokenStream {
                                     }
                                 });
                                 let token = quote! {
-                                    #[derive(Clone, Debug)]
+                                    #[derive(Clone, Debug, serde::Deserialize)]
                                     pub enum #struct_name {
                                         PCDATA(::std::vec::Vec<String>),
                                         #(#fields, )*
@@ -353,7 +353,7 @@ pub fn dtd(input: TokenStream) -> TokenStream {
                     tokens.push(token_stream);
                 });
                 tokens.push(quote! {
-                    #[derive(Clone, Debug)]
+                    #[derive(Clone, Debug, serde::Deserialize)]
                     pub struct #attrname {
                         #(pub #names: #types), *
                     }
@@ -484,7 +484,7 @@ where
             .map(|name| safe!(format_ident!("{}", name.to_string().to_snake_case())));
 
         let token = quote! {
-            #[derive(Clone, Debug)]
+            #[derive(Clone, Debug, serde::Deserialize)]
             pub struct #ident {
                 #(pub #fields: #names), *
             }
@@ -514,7 +514,7 @@ where
             .unzip();
 
         let token = quote! {
-            #[derive(Clone, Debug)]
+            #[derive(Clone, Debug, serde::Deserialize)]
             pub enum #ident {
                 #(#names(#names),)*
             }
@@ -538,7 +538,7 @@ impl ToTokenStream for parser::Name {
             (ident, TokenStream2::new())
         } else {
             let token = quote! {
-                #[derive(Clone, Debug)]
+                #[derive(Clone, Debug, serde::Deserialize)]
                 pub struct #ident;
             };
             context.insert(ident.clone(), token.clone());
@@ -587,7 +587,7 @@ impl ToTokenStream for parser::AttDef {
                 let ident = format_ident!("{}StringType", ident);
                 if context.get(&ident).is_none() {
                     let token = quote! {
-                        #[derive(Clone, Debug)]
+                        #[derive(Clone, Debug, serde::Deserialize)]
                         pub struct #ident(pub String);
                         impl ::std::convert::TryFrom<&str> for #ident {
                             type Error = ::std::string::String;
@@ -610,7 +610,7 @@ impl ToTokenStream for parser::AttDef {
                         _tokenized_type
                     );
                     let token = quote! {
-                        #[derive(Clone, Debug)]
+                        #[derive(Clone, Debug, serde::Deserialize)]
                         pub struct #ident(pub String);
                         impl ::std::convert::TryFrom<&str> for #ident {
                             type Error = ::std::string::String;
@@ -644,7 +644,7 @@ impl ToTokenStream for parser::AttDef {
                         let values2 = values2.join(", ");
                         if context.get(&name_types).is_none() {
                             let token = quote! {
-                                #[derive(Clone, Debug)]
+                                #[derive(Clone, Debug, serde::Deserialize)]
                                 pub enum #name_types {
                                     #(#variants, )*
                                 }
